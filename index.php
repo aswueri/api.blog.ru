@@ -1,10 +1,9 @@
 <?php
-require 'connectDb.php';
+require 'connectDB.php';
 require 'functions.php';
 
 header('Content-Type: application/json');
 
-// Проверка наличия параметров
 if (!isset($_GET['q'])) {
     http_response_code(400);
     echo json_encode(['error' => 'Missing parameters']);
