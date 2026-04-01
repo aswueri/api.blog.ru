@@ -32,16 +32,14 @@ function addPost($pdo, $data){
     http_response_code(201);
     $response = [
         'status' => true,
-        'post_id' => $pdo->lastInsertId()
+        'message' => $pdo->lastInsertId()
     ];
     echo json_encode($response, JSON_UNESCAPED_UNICODE);
 }
 
 function UpdatePost($pdo, $id, $data)
 {
-    $sql = "UPDATE `posts`"
-        . " SET `title` = :title, `body` = :body"
-        . " WHERE `id` = :id";
+    $sql = "UPDATE `posts` SET `title` = :title, `body` = :body WHERE `id` = :id";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
         'title' => $data['title'],
@@ -51,7 +49,20 @@ function UpdatePost($pdo, $id, $data)
     http_response_code(200);
     $response = [
         'status' => true,
-        'post_id' => $id
+        'message' => 'post updated successfully.'
+    ];
+    echo json_encode($response, JSON_UNESCAPED_UNICODE);
+}
+
+function deletePost($pdo, $id)
+{
+    $sql = "DELETE FROM `posts` WHERE `id` = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['id' => $id]);
+    http_response_code(200);
+    $response = [
+        'status' => true,
+        'message' => 'post deleted successfully.'
     ];
     echo json_encode($response, JSON_UNESCAPED_UNICODE);
 }
